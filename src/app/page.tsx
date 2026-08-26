@@ -7,12 +7,7 @@ import {
   CheckCircleIcon,
   CheckIcon,
   ShieldCheckIcon,
-  HomeIcon,
-  LayersIcon,
   WindIcon,
-  GitBranchIcon,
-  ArrowDownToLineIcon,
-  Trash2Icon,
   DollarSignIcon,
   ThermometerIcon,
   ZapIcon,
@@ -21,25 +16,18 @@ import {
 
 import { FadeIn, Stagger, StaggerItem } from '@/components/motion';
 import { Section, SectionHeading } from '@/components/section';
+import { ServiceCard } from '@/components/service-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { LeadForm } from '@/components/lead-form';
 import { services } from '@/lib/services';
 import { site } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'Attic & Spray Foam Insulation Houston TX | BBB A-Rated | Free Estimates',
+  title:
+    'Attic & Spray Foam Insulation Houston TX | BBB A-Rated | Free Estimates',
   description: site.description,
-};
-
-const serviceIconMap: Record<string, React.ElementType> = {
-  Home: HomeIcon,
-  Layers: LayersIcon,
-  Wind: WindIcon,
-  GitBranch: GitBranchIcon,
-  ArrowDownToLine: ArrowDownToLineIcon,
-  Trash2: Trash2Icon,
 };
 
 const benefitIconMap: Record<string, React.ElementType> = {
@@ -91,9 +79,10 @@ export default function HomePage() {
 
           <FadeIn delay={0.14}>
             <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/85 drop-shadow md:text-lg">
-              Cut energy bills, eliminate hot and cold spots, and protect your home&apos;s
-              comfort year-round. First Defense Insulation delivers expert attic insulation,
-              spray foam, air sealing, and duct services across Greater Houston.
+              Cut energy bills, eliminate hot and cold spots, and protect your
+              home&apos;s comfort year-round. First Defense Insulation delivers
+              expert attic insulation, spray foam, air sealing, and duct
+              services across Greater Houston.
             </p>
           </FadeIn>
 
@@ -122,7 +111,10 @@ export default function HomePage() {
 
           <FadeIn delay={0.28} className="mt-6 flex flex-wrap gap-x-8 gap-y-2">
             {site.badges.map((b) => (
-              <span key={b} className="flex items-center gap-1.5 text-xs font-medium text-white/80">
+              <span
+                key={b}
+                className="flex items-center gap-1.5 text-xs font-medium text-white/80"
+              >
                 <CheckCircleIcon className="size-3.5 text-blue-300" />
                 {b}
               </span>
@@ -137,8 +129,12 @@ export default function HomePage() {
           {site.stats.map((stat) => (
             <FadeIn key={stat.label}>
               <div className="flex flex-col items-center gap-1 py-8 text-center">
-                <span className="font-heading text-2xl font-bold text-primary">{stat.value}</span>
-                <span className="text-xs text-muted-foreground">{stat.label}</span>
+                <span className="font-heading text-2xl font-bold text-primary">
+                  {stat.value}
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  {stat.label}
+                </span>
               </div>
             </FadeIn>
           ))}
@@ -150,42 +146,14 @@ export default function HomePage() {
         <SectionHeading
           eyebrow="Our services"
           title="Comprehensive insulation solutions for Houston homes"
-          description="From attic insulation and spray foam to air sealing and duct services — First Defense Insulation handles every insulation need with 35+ years of expertise."
+          description="From blown-in cellulose and radiant barriers to air sealing, crawl space work, and duct services — First Defense Insulation handles every insulation need with 35+ years of expertise."
         />
         <Stagger className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {services.map((service) => {
-            const Icon = serviceIconMap[service.icon] ?? HomeIcon;
-            return (
-              <StaggerItem key={service.slug}>
-                <Card className="group h-full border-border bg-card shadow-sm transition-all hover:shadow-md hover:glow-primary dark:shadow-none">
-                  <CardHeader>
-                    <div className="mb-3 flex items-start justify-between">
-                      <div className="flex size-11 items-center justify-center rounded-xl bg-primary/10 transition-colors group-hover:bg-primary/20">
-                        <Icon className="size-5 text-primary" />
-                      </div>
-                      <span className="text-right text-[10px] font-semibold uppercase leading-relaxed tracking-widest text-muted-foreground">
-                        {service.eyebrow}
-                      </span>
-                    </div>
-                    <CardTitle className="text-base leading-snug">{service.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-sm leading-relaxed text-muted-foreground">
-                      {service.description}
-                    </p>
-                    <ul className="space-y-1.5">
-                      {service.bullets.map((b) => (
-                        <li key={b} className="flex items-start gap-2 text-xs text-muted-foreground">
-                          <CheckCircleIcon className="mt-0.5 size-3.5 shrink-0 text-primary" />
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              </StaggerItem>
-            );
-          })}
+          {services.map((service, index) => (
+            <StaggerItem key={service.slug}>
+              <ServiceCard service={service} priority={index < 3} />
+            </StaggerItem>
+          ))}
         </Stagger>
       </Section>
 
@@ -206,8 +174,12 @@ export default function HomePage() {
                     <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-primary/10">
                       <BIcon className="size-5 text-primary" />
                     </div>
-                    <h3 className="mb-2 text-sm font-semibold">{benefit.title}</h3>
-                    <p className="text-xs leading-relaxed text-muted-foreground">{benefit.body}</p>
+                    <h3 className="mb-2 text-sm font-semibold">
+                      {benefit.title}
+                    </h3>
+                    <p className="text-xs leading-relaxed text-muted-foreground">
+                      {benefit.body}
+                    </p>
                   </CardContent>
                 </Card>
               </FadeIn>
@@ -225,16 +197,18 @@ export default function HomePage() {
               title="Houston's trusted insulation experts for 35+ years."
             />
             <p className="mt-2 text-base leading-relaxed text-muted-foreground">
-              First Defense Insulation is a leading attic and spray foam insulation contractor
-              in Houston, helping homeowners improve comfort and lower energy bills. We provide
-              FREE estimates for a broad range of insulation needs — most residential projects
-              are completed in a single day, typically within 4 to 6 hours.
+              First Defense Insulation is a leading attic and spray foam
+              insulation contractor in Houston, helping homeowners improve
+              comfort and lower energy bills. We provide FREE estimates for a
+              broad range of insulation needs — most residential projects are
+              completed in a single day, typically within 4 to 6 hours.
             </p>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              We help homeowners mitigate heat buildup in attics using spray foam insulation,
-              carefully sealing air leaks to improve energy efficiency and reduce energy bills.
-              From attic insulation to crawl space moisture management, we offer comprehensive
-              solutions for Houston&apos;s unique climate challenges.
+              We help homeowners mitigate heat buildup in attics using spray
+              foam insulation, carefully sealing air leaks to improve energy
+              efficiency and reduce energy bills. From attic insulation to crawl
+              space moisture management, we offer comprehensive solutions for
+              Houston&apos;s unique climate challenges.
             </p>
             <div className="mt-6 space-y-3">
               {[
@@ -264,15 +238,23 @@ export default function HomePage() {
                     href={site.phones.houston.href}
                     className="flex items-center justify-between rounded-lg border border-border bg-background/60 px-4 py-3 transition-colors hover:border-primary/40"
                   >
-                    <span className="text-sm font-medium text-muted-foreground">Houston</span>
-                    <span className="font-heading text-lg font-bold">{site.phones.houston.display}</span>
+                    <span className="text-sm font-medium text-muted-foreground">
+                      Houston
+                    </span>
+                    <span className="font-heading text-lg font-bold">
+                      {site.phones.houston.display}
+                    </span>
                   </a>
                   <a
                     href={site.phones.dfw.href}
                     className="flex items-center justify-between rounded-lg border border-border bg-background/60 px-4 py-3 transition-colors hover:border-primary/40"
                   >
-                    <span className="text-sm font-medium text-muted-foreground">DFW</span>
-                    <span className="font-heading text-lg font-bold">{site.phones.dfw.display}</span>
+                    <span className="text-sm font-medium text-muted-foreground">
+                      DFW
+                    </span>
+                    <span className="font-heading text-lg font-bold">
+                      {site.phones.dfw.display}
+                    </span>
                   </a>
                 </div>
                 <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
@@ -289,10 +271,17 @@ export default function HomePage() {
                 { label: 'Same-Day', sub: 'Most projects done in 4–6 hrs' },
                 { label: 'Free Estimates', sub: 'On-site comfort inspections' },
               ].map((item) => (
-                <Card key={item.label} className="border-border bg-card shadow-sm dark:shadow-none">
+                <Card
+                  key={item.label}
+                  className="border-border bg-card shadow-sm dark:shadow-none"
+                >
                   <CardContent className="p-4 text-center">
-                    <p className="font-heading text-base font-bold text-primary">{item.label}</p>
-                    <p className="mt-0.5 text-xs text-muted-foreground">{item.sub}</p>
+                    <p className="font-heading text-base font-bold text-primary">
+                      {item.label}
+                    </p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">
+                      {item.sub}
+                    </p>
                   </CardContent>
                 </Card>
               ))}
@@ -312,16 +301,24 @@ export default function HomePage() {
               Get your free estimate today
             </h2>
             <p className="mt-4 text-base text-muted-foreground">
-              Tell us about your insulation needs and we&apos;ll schedule a free on-site
-              comfort inspection — no pressure, no commitment.
+              Tell us about your insulation needs and we&apos;ll schedule a free
+              on-site comfort inspection — no pressure, no commitment.
             </p>
           </FadeIn>
           <FadeIn delay={0.1}>
             <Card className="border-border shadow-md dark:shadow-none">
               <CardContent className="p-6 md:p-8">
                 <div className="mb-6 flex flex-wrap gap-x-6 gap-y-2">
-                  {['Free on-site inspection', 'Same-day response', 'Financing available', 'BBB A-Rated'].map((p) => (
-                    <div key={p} className="flex items-center gap-2 text-xs text-muted-foreground">
+                  {[
+                    'Free on-site inspection',
+                    'Same-day response',
+                    'Financing available',
+                    'BBB A-Rated',
+                  ].map((p) => (
+                    <div
+                      key={p}
+                      className="flex items-center gap-2 text-xs text-muted-foreground"
+                    >
                       <CheckCircleIcon className="size-3.5 shrink-0 text-primary" />
                       {p}
                     </div>
@@ -353,19 +350,28 @@ export default function HomePage() {
                 Stop losing money to poor insulation.
               </h2>
               <p className="mt-1.5 max-w-lg text-sm opacity-80">
-                Call First Defense Insulation today or fill out the form for a free,
-                no-obligation estimate. Most projects completed in a single day.
+                Call First Defense Insulation today or fill out the form for a
+                free, no-obligation estimate. Most projects completed in a
+                single day.
               </p>
             </div>
           </div>
           <div className="flex shrink-0 flex-wrap items-center justify-center gap-3">
-            <Button asChild variant="secondary" className="h-11 px-6 font-semibold">
+            <Button
+              asChild
+              variant="secondary"
+              className="h-11 px-6 font-semibold"
+            >
               <Link href="/contact">
                 Free estimate
                 <ArrowRightIcon className="size-4" />
               </Link>
             </Button>
-            <Button asChild variant="outline" className="h-11 border-primary-foreground/30 px-6 text-primary-foreground hover:bg-primary-foreground/10">
+            <Button
+              asChild
+              variant="outline"
+              className="h-11 border-primary-foreground/30 px-6 text-primary-foreground hover:bg-primary-foreground/10"
+            >
               <a href={site.phoneHref}>
                 <PhoneIcon className="size-4" />
                 {site.phone}

@@ -90,8 +90,13 @@ export function SiteFooter() {
           </h3>
           <ul className="space-y-2 text-sm">
             {services.map((s) => (
-              <li key={s.slug} className="text-muted-foreground">
-                {s.name}
+              <li key={s.slug}>
+                <Link
+                  href={s.href}
+                  className="text-muted-foreground transition-colors hover:text-primary"
+                >
+                  {s.name}
+                </Link>
               </li>
             ))}
           </ul>
@@ -105,6 +110,8 @@ export function SiteFooter() {
           <ul className="space-y-2 text-sm">
             {[
               { label: 'Get Free Estimate', href: '/contact' },
+              { label: 'Financing Options', href: '/financing' },
+              { label: 'Customer Reviews', href: '/reviews' },
               { label: 'Our Services', href: '/#services' },
               { label: 'Why Insulate', href: '/#benefits' },
               { label: 'About Us', href: '/about' },

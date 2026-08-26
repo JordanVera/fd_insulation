@@ -8,6 +8,20 @@ import { MenuIcon, PhoneIcon, XIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from '@/components/ui/navigation-menu';
+import {
   Sheet,
   SheetContent,
   SheetHeader,
@@ -15,11 +29,44 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { getService, isServicePath, serviceNavGroups } from '@/lib/services';
 import { nav, site } from '@/lib/site';
+
+const [atticGroup, ...otherGroups] = serviceNavGroups;
+
+function ServicesDropdownGroup({
+  group,
+}: {
+  group: (typeof serviceNavGroups)[number];
+}) {
+  return (
+    <div>
+      <p className="px-2 pb-0.5 text-[10px] font-semibold uppercase tracking-widest text-primary">
+        {group.label}
+      </p>
+      <ul>
+        {group.slugs.map((slug) => {
+          const service = getService(slug);
+          if (!service) return null;
+          return (
+            <li key={slug}>
+              <NavigationMenuLink asChild>
+                <Link href={service.href} className="rounded-md px-2 py-1.5 text-sm font-medium">
+                  {service.name}
+                </Link>
+              </NavigationMenuLink>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const servicesActive = isServicePath(pathname);
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/90 backdrop-blur-md transition-colors">
@@ -70,21 +117,47 @@ export function SiteHeader() {
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-0.5 lg:flex">
-          {nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-                item.label === 'Free Estimate'
-                  ? 'ml-2 bg-primary text-primary-foreground hover:bg-primary/90'
-                  : pathname === item.href
+          {nav.map((item) =>
+            item.label === 'Services' ? (
+              <NavigationMenu key={item.href} viewport={false}>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger
+                      className={`bg-transparent px-3 py-1.5 hover:bg-transparent focus:bg-transparent data-open:bg-transparent data-popup-open:bg-transparent ${
+                        servicesActive
+                          ? 'text-primary'
+                          : 'text-muted-foreground hover:text-foreground'
+                      }`}
+                    >
+                      Services
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent className="z-50">
+                      <div className="grid w-96 grid-cols-2 gap-x-2 p-2">
+                        {atticGroup ? <ServicesDropdownGroup group={atticGroup} /> : null}
+                        <div className="flex flex-col gap-3">
+                          {otherGroups.map((group) => (
+                            <ServicesDropdownGroup key={group.label} group={group} />
+                          ))}
+                        </div>
+                      </div>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+                  pathname === item.href
                     ? 'text-primary'
                     : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
+                }`}
+              >
+                {item.label}
+              </Link>
+            ),
+          )}
         </nav>
 
         <div className="flex items-center gap-2">
@@ -149,9 +222,56 @@ export function SiteHeader() {
                 </a>
               </div>
               <nav className="flex flex-col gap-0.5 px-4 pb-8 pt-4">
-                {nav
-                  .filter((i) => i.label !== 'Free Estimate')
-                  .map((item) => (
+                {nav.map((item) =>
+                  item.label === 'Services' ? (
+                    <Accordion
+                      key={item.href}
+                      type="single"
+                      collapsible
+                      defaultValue={servicesActive ? 'services' : undefined}
+                    >
+                      <AccordionItem value="services" className="border-none">
+                        <AccordionTrigger
+                          className={`rounded-lg px-3 py-2.5 text-sm font-medium hover:no-underline ${
+                            servicesActive
+                              ? 'bg-primary/10 text-primary'
+                              : 'text-foreground hover:bg-muted'
+                          }`}
+                        >
+                          Services
+                        </AccordionTrigger>
+                        <AccordionContent className="px-1 pb-2">
+                          <div className="space-y-3 pl-2">
+                            {serviceNavGroups.map((group) => (
+                              <div key={group.label}>
+                                <p className="mb-1 px-2 text-[10px] font-semibold uppercase tracking-widest text-primary">
+                                  {group.label}
+                                </p>
+                                {group.slugs.map((slug) => {
+                                  const service = getService(slug);
+                                  if (!service) return null;
+                                  return (
+                                    <Link
+                                      key={slug}
+                                      href={service.href}
+                                      onClick={() => setOpen(false)}
+                                      className={`block rounded-lg px-2 py-1.5 text-sm transition-colors ${
+                                        pathname === service.href
+                                          ? 'bg-primary/10 text-primary'
+                                          : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                                      }`}
+                                    >
+                                      {service.name}
+                                    </Link>
+                                  );
+                                })}
+                              </div>
+                            ))}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                  ) : (
                     <Link
                       key={item.href}
                       href={item.href}
@@ -164,7 +284,8 @@ export function SiteHeader() {
                     >
                       {item.label}
                     </Link>
-                  ))}
+                  ),
+                )}
               </nav>
             </SheetContent>
           </Sheet>

@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { services } from '@/lib/services';
+import { formServices } from '@/lib/services';
 import { formsubmitEndpoint, site } from '@/lib/site';
 
 export function LeadForm({ defaultService }: { defaultService?: string }) {
@@ -58,7 +58,7 @@ export function LeadForm({ defaultService }: { defaultService?: string }) {
             <SelectValue placeholder="Select a service" />
           </SelectTrigger>
           <SelectContent position="popper">
-            {services.map((s) => (
+            {formServices().map((s) => (
               <SelectItem key={s.slug} value={s.formValue}>
                 {s.formValue}
               </SelectItem>
