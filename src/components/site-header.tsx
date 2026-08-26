@@ -24,21 +24,31 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/90 backdrop-blur-md transition-colors">
       {/* Announcement bar */}
-      <div className="border-b border-primary/15 bg-primary/5 dark:bg-primary/8">
+      <div className="hidden md:block border-b border-primary/15 bg-primary/5 dark:bg-primary/8">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2 text-xs md:px-6">
           <div className="flex flex-wrap items-center gap-3 text-muted-foreground">
-            <span className="font-semibold text-foreground/80">BBB A-Rated</span>
+            <span className="font-semibold text-foreground/80">
+              BBB A-Rated
+            </span>
             <span className="hidden md:inline">·</span>
             <span className="hidden md:inline">35+ Years Experience</span>
             <span className="hidden md:inline">·</span>
-            <span className="hidden font-medium text-primary md:inline">Financing Available</span>
+            <span className="hidden font-medium text-primary md:inline">
+              Financing Available
+            </span>
           </div>
           <div className="hidden items-center gap-4 md:flex">
-            <a href={site.phones.houston.href} className="font-semibold transition-colors hover:text-primary">
+            <a
+              href={site.phones.houston.href}
+              className="font-semibold transition-colors hover:text-primary"
+            >
               Houston: {site.phones.houston.display}
             </a>
             <span className="text-border">|</span>
-            <a href={site.phones.dfw.href} className="font-semibold transition-colors hover:text-primary">
+            <a
+              href={site.phones.dfw.href}
+              className="font-semibold transition-colors hover:text-primary"
+            >
               DFW: {site.phones.dfw.display}
             </a>
           </div>
@@ -53,7 +63,7 @@ export function SiteHeader() {
             alt="First Defense Insulation"
             width={52}
             height={52}
-            className="h-12 w-auto"
+            className="h-16 w-auto"
             priority
           />
         </Link>
@@ -68,8 +78,8 @@ export function SiteHeader() {
                 item.label === 'Free Estimate'
                   ? 'ml-2 bg-primary text-primary-foreground hover:bg-primary/90'
                   : pathname === item.href
-                  ? 'text-primary'
-                  : 'text-muted-foreground hover:text-foreground'
+                    ? 'text-primary'
+                    : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               {item.label}
@@ -90,8 +100,17 @@ export function SiteHeader() {
 
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className="size-9 lg:hidden" aria-label="Open menu">
-                {open ? <XIcon className="size-4" /> : <MenuIcon className="size-4" />}
+              <Button
+                variant="outline"
+                size="icon"
+                className="size-9 lg:hidden"
+                aria-label="Open menu"
+              >
+                {open ? (
+                  <XIcon className="size-4" />
+                ) : (
+                  <MenuIcon className="size-4" />
+                )}
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-80">
@@ -130,20 +149,22 @@ export function SiteHeader() {
                 </a>
               </div>
               <nav className="flex flex-col gap-0.5 px-4 pb-8 pt-4">
-                {nav.filter((i) => i.label !== 'Free Estimate').map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    className={`rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-                      pathname === item.href
-                        ? 'bg-primary/10 text-primary'
-                        : 'text-foreground hover:bg-muted'
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+                {nav
+                  .filter((i) => i.label !== 'Free Estimate')
+                  .map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      className={`rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+                        pathname === item.href
+                          ? 'bg-primary/10 text-primary'
+                          : 'text-foreground hover:bg-muted'
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
               </nav>
             </SheetContent>
           </Sheet>

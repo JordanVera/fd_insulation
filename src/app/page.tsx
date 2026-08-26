@@ -53,7 +53,7 @@ export default function HomePage() {
   return (
     <>
       {/* ── VIDEO HERO ──────────────────────────────────────────────── */}
-      <div className="relative min-h-[88vh] overflow-hidden">
+      <div className="relative overflow-hidden">
         {/* Background video */}
         <video
           className="absolute inset-0 h-full w-full object-cover"
@@ -69,7 +69,7 @@ export default function HomePage() {
         <div className="video-overlay absolute inset-0" />
 
         {/* Content — always white text over video */}
-        <div className="relative z-10 mx-auto flex min-h-[88vh] max-w-6xl flex-col justify-center px-4 py-24 md:px-6">
+        <div className="relative z-10 mx-auto flex max-w-6xl flex-col justify-center px-4 py-12 sm:py-14 md:px-6 md:py-16 lg:py-20">
           <FadeIn delay={0.02}>
             <div className="mb-6 flex flex-wrap items-center gap-3">
               <Badge className="border-white/20 bg-white/10 text-white backdrop-blur-sm hover:bg-white/15">
@@ -120,7 +120,7 @@ export default function HomePage() {
             </Button>
           </FadeIn>
 
-          <FadeIn delay={0.28} className="mt-10 flex flex-wrap gap-x-8 gap-y-2">
+          <FadeIn delay={0.28} className="mt-6 flex flex-wrap gap-x-8 gap-y-2">
             {site.badges.map((b) => (
               <span key={b} className="flex items-center gap-1.5 text-xs font-medium text-white/80">
                 <CheckCircleIcon className="size-3.5 text-blue-300" />
@@ -129,9 +129,6 @@ export default function HomePage() {
             ))}
           </FadeIn>
         </div>
-
-        {/* Bottom fade — blends video into page background */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
       </div>
 
       {/* ── STATS BAR ─────────────────────────────────────────────── */}
