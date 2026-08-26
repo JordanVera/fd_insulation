@@ -16,7 +16,15 @@ import { Textarea } from '@/components/ui/textarea';
 import { formServices } from '@/lib/services';
 import { formsubmitEndpoint, site } from '@/lib/site';
 
-export function LeadForm({ defaultService }: { defaultService?: string }) {
+export function LeadForm({
+  defaultService,
+  location,
+  addressPlaceholder = 'Street address, Houston TX',
+}: {
+  defaultService?: string;
+  location?: string;
+  addressPlaceholder?: string;
+}) {
   const nextUrl = `${site.url}/thank-you`;
 
   return (
@@ -30,6 +38,7 @@ export function LeadForm({ defaultService }: { defaultService?: string }) {
       <input type="hidden" name="_captcha" value="false" />
       <input type="hidden" name="_template" value="table" />
       <input type="text" name="_honey" className="hidden" tabIndex={-1} autoComplete="off" />
+      {location ? <input type="hidden" name="location" value={location} /> : null}
 
       <Field label="First name" htmlFor="firstName">
         <Input id="firstName" name="firstName" required autoComplete="given-name" className="h-11" />
@@ -48,7 +57,7 @@ export function LeadForm({ defaultService }: { defaultService?: string }) {
           id="address"
           name="address"
           autoComplete="street-address"
-          placeholder="Street address, Houston TX"
+          placeholder={addressPlaceholder}
           className="h-11"
         />
       </Field>

@@ -30,6 +30,7 @@ import {
 } from '@/components/ui/sheet';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { getService, isServicePath, serviceNavGroups } from '@/lib/services';
+import { isServiceAreaPath, serviceAreas } from '@/lib/service-areas';
 import { nav, site } from '@/lib/site';
 
 const [atticGroup, ...otherGroups] = serviceNavGroups;
@@ -67,6 +68,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const servicesActive = isServicePath(pathname);
+  const locationsActive = isServiceAreaPath(pathname);
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/90 backdrop-blur-md transition-colors">
@@ -139,6 +141,49 @@ export function SiteHeader() {
                             <ServicesDropdownGroup key={group.label} group={group} />
                           ))}
                         </div>
+                      </div>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+            ) : item.label === 'Locations' ? (
+              <NavigationMenu key={item.href} viewport={false}>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger
+                      className={`bg-transparent px-3 py-1.5 hover:bg-transparent focus:bg-transparent data-open:bg-transparent data-popup-open:bg-transparent ${
+                        locationsActive
+                          ? 'text-primary'
+                          : 'text-muted-foreground hover:text-foreground'
+                      }`}
+                    >
+                      Locations
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent className="z-50">
+                      <div className="grid w-72 grid-cols-2 gap-x-1 p-2">
+                        {(['houston', 'dfw'] as const).map((region) => (
+                          <div key={region}>
+                            <p className="px-2 pb-0.5 text-[10px] font-semibold uppercase tracking-widest text-primary">
+                              {region === 'dfw' ? 'DFW' : 'Greater Houston'}
+                            </p>
+                            <ul>
+                              {serviceAreas
+                                .filter((area) => area.region === region)
+                                .map((area) => (
+                                  <li key={area.slug}>
+                                    <NavigationMenuLink asChild>
+                                      <Link
+                                        href={area.href}
+                                        className="rounded-md px-2 py-1.5 text-sm font-medium"
+                                      >
+                                        {area.shortName}
+                                      </Link>
+                                    </NavigationMenuLink>
+                                  </li>
+                                ))}
+                            </ul>
+                          </div>
+                        ))}
                       </div>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
@@ -265,6 +310,52 @@ export function SiteHeader() {
                                     </Link>
                                   );
                                 })}
+                              </div>
+                            ))}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                  ) : item.label === 'Locations' ? (
+                    <Accordion
+                      key={item.href}
+                      type="single"
+                      collapsible
+                      defaultValue={locationsActive ? 'locations' : undefined}
+                    >
+                      <AccordionItem value="locations" className="border-none">
+                        <AccordionTrigger
+                          className={`rounded-lg px-3 py-2.5 text-sm font-medium hover:no-underline ${
+                            locationsActive
+                              ? 'bg-primary/10 text-primary'
+                              : 'text-foreground hover:bg-muted'
+                          }`}
+                        >
+                          Locations
+                        </AccordionTrigger>
+                        <AccordionContent className="px-1 pb-2">
+                          <div className="space-y-3 pl-2">
+                            {(['houston', 'dfw'] as const).map((region) => (
+                              <div key={region}>
+                                <p className="mb-1 px-2 text-[10px] font-semibold uppercase tracking-widest text-primary">
+                                  {region === 'dfw' ? 'DFW' : 'Greater Houston'}
+                                </p>
+                                {serviceAreas
+                                  .filter((area) => area.region === region)
+                                  .map((area) => (
+                                    <Link
+                                      key={area.slug}
+                                      href={area.href}
+                                      onClick={() => setOpen(false)}
+                                      className={`block rounded-lg px-2 py-1.5 text-sm transition-colors ${
+                                        pathname === area.href
+                                          ? 'bg-primary/10 text-primary'
+                                          : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                                      }`}
+                                    >
+                                      {area.shortName}
+                                    </Link>
+                                  ))}
                               </div>
                             ))}
                           </div>

@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 
 import { Separator } from '@/components/ui/separator';
+import { serviceAreas } from '@/lib/service-areas';
 import { services } from '@/lib/services';
 import { site } from '@/lib/site';
 
@@ -134,13 +135,15 @@ export function SiteFooter() {
             Service Areas
           </h3>
           <ul className="space-y-2">
-            {site.serviceAreas.map((area) => (
-              <li
-                key={area}
-                className="flex items-center gap-1.5 text-sm text-muted-foreground"
-              >
-                <span className="size-1.5 shrink-0 rounded-full bg-primary/50" />
-                {area}
+            {serviceAreas.map((area) => (
+              <li key={area.slug}>
+                <Link
+                  href={area.href}
+                  className="flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
+                  <span className="size-1.5 shrink-0 rounded-full bg-primary/50" />
+                  {area.shortName}
+                </Link>
               </li>
             ))}
           </ul>

@@ -1,4 +1,5 @@
 import { services } from '@/lib/services';
+import { serviceAreas } from '@/lib/service-areas';
 import { googleReviews } from '@/lib/reviews';
 import { site } from '@/lib/site';
 
@@ -24,9 +25,10 @@ export function LocalBusinessJsonLd() {
       bestRating: 5,
       worstRating: 1,
     },
-    areaServed: site.serviceAreas.map((area) => ({
+    areaServed: serviceAreas.map((area) => ({
       '@type': 'City',
-      name: area,
+      name: area.shortName,
+      url: `${site.url}${area.href}`,
     })),
     openingHoursSpecification: site.hours.schema.map((h) => ({
       '@type': 'OpeningHoursSpecification',

@@ -66,18 +66,6 @@ export const site = {
       },
     ],
   },
-  serviceAreas: [
-    'Houston',
-    'Katy',
-    'Cypress',
-    'Spring',
-    'Humble',
-    'Magnolia',
-    'The Woodlands',
-    'Conroe',
-    'Dallas',
-    'Ft. Worth',
-  ],
 } as const;
 
 export const formsubmitEndpoint = `https://formsubmit.co/${site.email}`;
@@ -85,6 +73,7 @@ export const formsubmitEndpoint = `https://formsubmit.co/${site.email}`;
 export const nav = [
   { href: '/', label: 'Home' },
   { href: '/#services', label: 'Services' },
+  { href: '/houston-tx', label: 'Locations' },
   { href: '/reviews', label: 'Reviews' },
   { href: '/financing', label: 'Financing' },
   { href: '/about', label: 'About' },
