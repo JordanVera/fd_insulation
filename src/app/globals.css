@@ -199,4 +199,24 @@
       color-mix(in oklch, var(--foreground) 2.5%, transparent) 15px
     );
   }
+  @keyframes not-found-shimmer {
+    0% {
+      background-position: 200% center;
+    }
+    100% {
+      background-position: -200% center;
+    }
+  }
+  .not-found-giant {
+    background-size: 200% auto;
+    text-shadow:
+      0 0 80px color-mix(in oklch, var(--primary) 25%, transparent),
+      0 2px 0 color-mix(in oklch, var(--foreground) 6%, transparent);
+    animation: not-found-shimmer 8s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .not-found-giant {
+      animation: none;
+    }
+  }
 }
